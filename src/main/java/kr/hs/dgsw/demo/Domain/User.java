@@ -15,15 +15,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue
-    private Long id;
+    private String id;
+    private String pw;
 
     private String userName;
     private String email;
 
     private String storedPath;
     private String originalName;
-
 
     @CreationTimestamp
     private LocalDateTime joined;

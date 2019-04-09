@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script
+            src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.5</version>
+    </dependency>
+</head>
+<body>
+<div id="container">
+    <div id="login-container" style="display: flex; justify-content: center; align-items: center; position: fixed; width: 100vh; height: 100vh;left: 0; top: 0;background-color: #000000aa;">
+        <div style="text-align: center; background-color: white; padding: 0 30px;">
+            <div style="margin: 30px 0;">로그인</div>
+            <div><input id="login-id" placeholder="사용자 아이디"></div>
+            <div><input id="login-pw" placeholder="패스워드" type="password"></div>
+            <div style="margin: 30px 0;"><button onclick="login()">로그인</button>
+                <button onclick="openRegisterDialog()">회원가입</button></div>
+        </div>
+    </div>
+    <div id="register-container" style="display: none;">
+        <div style="display: flex; justify-content: center; align-items: center; position: fixed; width: 100vh; height: 100vh;left: 0; top: 0;">
+            <div style="text-align: center; background-color: white; padding: 0 30px;">
+                <div style="margin: 30px 0;">회원가입</div>
+                <div><input id="register-id" placeholder="사용자 아이디"></div>
+                <div><input id="register-pw" placeholder="패스워드" type="password"></div>
+                <div><input id="register-name" placeholder="이름"></div>
+                <div><input id="register-email" placeholder="이메일" type="email"></div>
+                <div>
+                    <input type="file" id="register-file">
+                </div>
+                <div style="margin: 30px 0;"><button onclick="register()">회원가입</button>
+                    <button onclick="closeRegisterDialog()">취소</button></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    async function uploadFile(button, id){
+        try {
+            let fileInput = $(`#upload_file${id}`)[0].files[0];
+            let formData = new FormData(); // <form></form>
+            formData.append("srcFile", fileInput);
+
+            await $.ajax({
+                type: 'POST',
+                url: `/attachment/${id}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success : function(response) {
+                    $(`#line${id}`).find('div:nth-child(3)').html(`${response.originalName}`);
+                }
+            })
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    function closeRegisterDialog(){
+        $('#register-container').hide();
+    }
+
+    function openRegisterDialog(){
+        $('#register-container').show();
+    }
+
+    function register(){
+        try{
+
+        let profileImg = $('#register-file')[0].files[0];
+        let formData = new FormData();
+
+        formData.append('srcFile', profileImg);
+
+        formData.append('user', JSON.stringify({
+            id: $('#register-id').val(),
+            pw: $('#register-pw').val(),
+            userName: $('#register-name').val(),
+            email: $('#register-email').val()
+        }));
+        // formData.append('id', $('#register-id').val());
+        // formData.append('pw', $('#register-pw').val());
+        // formData.append('name', $('#register-name').val());
+        // formData.append('email', $('#register-email').val());
+
+        $.ajax({
+            type: 'POST',
+            url: '/register',
+            data: formData,
+            contentType: false,
+            dataType: 'json',
+            processData: false,
+            success : function(response) {
+                console.log(JSON.stringify(response));
+            }
+        })
+        } catch (e) {
+            console.error(e);
+        }
+
+    }
+
+    function login(){
+        let id = $('#login-id').val();
+        let pw = $('#login-pw').val();
+
+        if(id === ""){
+            alert("아이디를 입력하세요.");
+            return;
+        } else if(pw === ""){
+            alert("비밀번호를 입력하세요.");
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/login',
+            data: JSON.stringify({
+                id,
+                pw
+            }),
+            contentType: 'application/json',
+            dataType: 'json',
+            success : function(response) {
+                console.log(JSON.stringify(response));
+                // TODO : function here.
+            },
+
+        })
+    }
+</script>
+<!--<div id="container" style="display: none;">-->
+    <!--<div id="login-container" style="display: flex; justify-content: center; align-items: center; position: fixed; width: 100vh; height: 100vh;left: 0; top: 0;background-color: #000000aa;">-->
+        <!--<div style="text-align: center; background-color: white; padding: 0 30px;">-->
+            <!--<div style="margin: 30px 0;">로그인</div>-->
+            <!--<div><input placeholder="사용자 아이디"></div>-->
+            <!--<div><input placeholder="패스워드" type="password"></div>-->
+            <!--<div style="margin: 30px 0;"><button>확인</button>-->
+                <!--<button>회원가입</button>-->
+                <!--<button onclick="closeLoginDialog()">취소</button></div>-->
+
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+</body>
+<style>
+    body{ margin: 0; }
+    header {
+        height: 100px; width: 100vw; background-color: aqua;
+    }
+    aside {
+        position: absolute;
+        top: 100px;
+        right: 0; width: 200px;
+        bottom: 0;
+        height: 100vh;
+        background-color: red;
+    }
+    section{
+        position: absolute;
+        top: 100px;
+        left: 0;
+        right: 200px;
+        background-color: blue;
+        bottom: 0;
+    }
+    footer{
+        border: 1px solid silver;
+        height: 100px;
+    }
+</style>
+</html>
