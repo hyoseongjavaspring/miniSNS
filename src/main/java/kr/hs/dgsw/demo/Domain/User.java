@@ -29,8 +29,12 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime modified;
 
-    public User(String userName, String email) {
+    public User(String id, String pw, String userName, String email, String storedPath, String originalName){
+        this.id = id;
+        this.pw = pw;
         this.userName = userName;
         this.email = email;
+        this.storedPath = storedPath;
+        this.originalName = originalName;
     }
 }
