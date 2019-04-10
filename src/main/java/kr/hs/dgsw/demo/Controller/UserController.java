@@ -20,8 +20,8 @@ public class UserController {
         return this.userService.login(user);
     }
 
-    @PostMapping("/register")
-    public User register(@RequestPart MultipartFile srcFile, @RequestPart User user){
-        return this.userService.register(user);
-    }
+//    @PostMapping("/register")
+//    public User register(@RequestPart MultipartFile srcFile, @RequestPart User user){
+//        return this.userService.register(user);
+//    }
 }

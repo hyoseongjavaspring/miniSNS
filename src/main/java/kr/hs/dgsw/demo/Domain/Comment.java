@@ -27,7 +27,7 @@ public class Comment {
     @GeneratedValue
     private Long id;
 
-    private Long userId;
+    private String userId;
     private String content;
 
     private String storedPath;
@@ -39,7 +39,7 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime modified;
 
-    public Comment(long userId, String content) {
+    public Comment(String userId, String content) {
         this.userId = userId;
         this.content = content;
     }

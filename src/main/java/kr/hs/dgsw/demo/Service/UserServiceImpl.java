@@ -1,6 +1,7 @@
 package kr.hs.dgsw.demo.Service;
 
 import kr.hs.dgsw.demo.Domain.User;
+import kr.hs.dgsw.demo.Protocol.AttachmentProtocol;
 import kr.hs.dgsw.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,12 @@ public class UserServiceImpl implements UserService{
         } else {
             return this.userRepository.save(user);
         }
+    }
+
+    @Override
+    public AttachmentProtocol getPathById(String id) {
+        return this.userRepository.findById(id)
+                .map(found -> new AttachmentProtocol(found.getStoredPath(), found.getOriginalName()))
+                .orElse(null);
     }
 }
