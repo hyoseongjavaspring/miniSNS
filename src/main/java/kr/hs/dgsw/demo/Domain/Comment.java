@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class Comment {
 
     public Comment(Comment c){
-        this.id = c.getId();
-        this.userId = c.getUserId();
+        this.idx = c.getIdx();
+        this.userIdx = c.getUserIdx();
         this.content = c.getContent();
         this.created = c.getCreated();
         this.modified = c.getModified();
@@ -25,9 +25,9 @@ public class Comment {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long idx;
 
-    private String userId;
+    private Long userIdx;
     private String content;
 
     private String storedPath;
@@ -39,9 +39,10 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime modified;
 
-    public Comment(String userId, String content) {
-        this.userId = userId;
+    public Comment(Long userIdx, String content, String storedPath, String originalName) {
+        this.userIdx = userIdx;
         this.content = content;
+        this.storedPath = storedPath;
+        this.originalName = originalName;
     }
-
 }

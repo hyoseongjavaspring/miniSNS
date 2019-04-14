@@ -45,17 +45,15 @@ public class AttachmentController {
         }
     }
 
-
     @GetMapping("/attachment/{type}/{id}")
-    public void download(@PathVariable String type, @PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
+    public void download(@PathVariable String type, @PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
         AttachmentProtocol attachmentProtocol = null;
         if(type.equals("user")){
             attachmentProtocol = this.userService.getPathById(id);
 
 
         } else if(type.equals("comment")){
-            System.out.println("id : " + Long.parseLong(id));
-            attachmentProtocol = this.commentService.getPathById(Long.parseLong(id));
+            attachmentProtocol = this.commentService.getPathById(id);
         }
 
         try {

@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User login(User user) {
-        return this.userRepository.findByIdAndPw(user.getId(), user.getPw())
+        return this.userRepository.findByUserIdAndPw(user.getUserId(), user.getPw())
                 .orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User register(User user) {
-        Optional<User> found = this.userRepository.findById(user.getId());
+        Optional<User> found = this.userRepository.findById(user.getIdx());
         if(found.isPresent()){
             return null;
         } else {
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public AttachmentProtocol getPathById(String id) {
+    public AttachmentProtocol getPathById(Long id) {
         return this.userRepository.findById(id)
                 .map(found -> new AttachmentProtocol(found.getStoredPath(), found.getOriginalName()))
                 .orElse(null);

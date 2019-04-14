@@ -14,8 +14,12 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class User {
+
     @Id
-    private String id;
+    @GeneratedValue
+    private Long idx;
+
+    private String userId;
     private String pw;
 
     private String userName;
@@ -29,8 +33,8 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime modified;
 
-    public User(String id, String pw, String userName, String email, String storedPath, String originalName){
-        this.id = id;
+    public User(String userId, String pw, String userName, String email, String storedPath, String originalName){
+        this.userId = userId;
         this.pw = pw;
         this.userName = userName;
         this.email = email;

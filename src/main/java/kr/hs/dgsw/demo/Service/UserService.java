@@ -8,5 +8,5 @@ public interface UserService {
     User login(User user);
     User register(User user);
 
-    AttachmentProtocol getPathById(String id);
+    AttachmentProtocol getPathById(Long idx);
 }
